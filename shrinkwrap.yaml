@@ -8,8 +8,7 @@ dependencies:
   mocha: 3.5.3
   mongodb: 2.2.36
   node-fetch: 2.3.0
-  yahoo-finance-quotes: 1.0.3
-  yahoo-stocks: 2.0.4
+  yahoo-stock-prices: 1.0.0
   zombie: 5.0.8
 packages:
   /abab/1.0.4:
@@ -83,12 +82,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ReZxvNHIOv88FlT7rxcXIIC0fPt4KZqZbOlivyWtXLt8ESx84zd3kMC6iK5jVeS2qt+g7ftS7ye4fi06X5rtRQ==
-  /axios/0.8.1:
-    dependencies:
-      follow-redirects: 0.0.7
-    dev: false
-    resolution:
-      integrity: sha1-4Or+wPNGE5Un3Dt5/cv/gDSiQEU=
   /babel-runtime/5.8.29:
     dependencies:
       core-js: 1.2.7
@@ -497,13 +490,6 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-Y1GUDo39ez4aHAw7MysnUD5JzYX+WaIj8I57kO3aEPT1fFRL4sr7mjei97FgnwhAyyzRYmQZaTHb2+9uZ1dPtg==
-  /follow-redirects/0.0.7:
-    dependencies:
-      debug: 2.6.9
-      stream-consume: 0.1.1
-    dev: false
-    resolution:
-      integrity: sha1-NLkLqyqRGqNHVx2pDyK9NuzYqRk=
   /forever-agent/0.6.1:
     dev: false
     resolution:
@@ -1279,10 +1265,6 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
-  /stream-consume/0.1.1:
-    dev: false
-    resolution:
-      integrity: sha512-tNa3hzgkjEP7XbCkbRXe1jpg+ievoa0O4SCFlMOYEscGSS4JJsckGL8swUyAa/ApGU3Ae4t6Honor4HhL+tRyg==
   /string_decoder/1.0.3:
     dependencies:
       safe-buffer: 5.1.2
@@ -1468,16 +1450,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-TYuPHszTQZqjYgYb7O9RXh5VljU=
-  /yahoo-finance-quotes/1.0.3:
+  /yahoo-stock-prices/1.0.0:
     dependencies:
-      axios: 0.8.1
+      request: 2.88.0
     dev: false
     resolution:
-      integrity: sha1-gqZZCK0SUqpqs0j3iNOrJ5ohRAI=
-  /yahoo-stocks/2.0.4:
-    dev: false
-    resolution:
-      integrity: sha512-rSlzNXpVbQUuldZxfbJ61SAZzrWzSyLvniCnFz0y1mNh0rSoCNRQxgyYadxIClp98X8KRko0Dk1fhHpns9FAVw==
+      integrity: sha1-sMqyHsm/i0uID6M3NkDkxzMYwdA=
   /zombie/5.0.8:
     dependencies:
       babel-runtime: 5.8.29
@@ -1510,6 +1488,5 @@ specifiers:
   mocha: ^3.2.0
   mongodb: ^2.2.16
   node-fetch: ^2.3.0
-  yahoo-finance-quotes: ^1.0.3
-  yahoo-stocks: ^2.0.4
+  yahoo-stock-prices: ^1.0.0
   zombie: ^5.0.5
