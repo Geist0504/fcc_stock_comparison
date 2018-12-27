@@ -8,6 +8,7 @@ dependencies:
   mocha: 3.5.3
   mongodb: 2.2.36
   node-fetch: 2.3.0
+  yahoo-stocks: 2.0.4
   zombie: 5.0.8
 packages:
   /abab/1.0.4:
@@ -1449,6 +1450,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-TYuPHszTQZqjYgYb7O9RXh5VljU=
+  /yahoo-stocks/2.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-rSlzNXpVbQUuldZxfbJ61SAZzrWzSyLvniCnFz0y1mNh0rSoCNRQxgyYadxIClp98X8KRko0Dk1fhHpns9FAVw==
   /zombie/5.0.8:
     dependencies:
       babel-runtime: 5.8.29
@@ -1481,4 +1486,5 @@ specifiers:
   mocha: ^3.2.0
   mongodb: ^2.2.16
   node-fetch: ^2.3.0
+  yahoo-stocks: ^2.0.4
   zombie: ^5.0.5
