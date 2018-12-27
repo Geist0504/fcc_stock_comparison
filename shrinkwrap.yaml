@@ -8,6 +8,7 @@ dependencies:
   mocha: 3.5.3
   mongodb: 2.2.36
   node-fetch: 2.3.0
+  stock-info: 1.0.3
   yahoo-stock-prices: 1.0.0
   zombie: 5.0.8
 packages:
@@ -1265,6 +1266,10 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
+  /stock-info/1.0.3:
+    dev: false
+    resolution:
+      integrity: sha512-5eivwUKeHo+6oZPUz4l7XFEHj9XdrHE/B1oX1d8tYCm+14kE4dg8jnWupAMRqzvEtOYsxb0kFISNlrgRcEGSmw==
   /string_decoder/1.0.3:
     dependencies:
       safe-buffer: 5.1.2
@@ -1488,5 +1493,6 @@ specifiers:
   mocha: ^3.2.0
   mongodb: ^2.2.16
   node-fetch: ^2.3.0
+  stock-info: ^1.0.3
   yahoo-stock-prices: ^1.0.0
   zombie: ^5.0.5
