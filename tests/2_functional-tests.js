@@ -22,7 +22,7 @@ suite('Functional Tests', function() {
         .get('/api/stock-prices')
         .query({stock: 'goog'})
         .end(function(err, res){
-          
+          console.log('test')
           //complete this one too
           
           done();
