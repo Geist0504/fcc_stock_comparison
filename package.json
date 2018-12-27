@@ -17,7 +17,8 @@
     "zombie": "^5.0.5",
     "helmet": "^3.1.0",
     "node-fetch": "^2.3.0",
-    "yahoo-stocks": "^2.0.4"
+    "yahoo-stocks": "^2.0.4",
+    "yahoo-finance-quotes": "^1.0.3"
   },
   "engines": {
     "node": "4.4.3"
