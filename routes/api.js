@@ -10,14 +10,17 @@
 
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
+let fetch = require('node-fetch')
 
 const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 
 module.exports = function (app) {
 
   app.route('/api/stock-prices')
-    .get(function (req, res){
-      res.text('working')
+    .get(async function (req, res){
+    let test = await fetch('https://finance.google.com/finance/info?q=NASDAQ%3aGOOG')
+    console.log(test)
+      res.send('working')
     });
     
 };
