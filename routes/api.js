@@ -27,31 +27,28 @@ module.exports = function (app) {
     .get(async function (req, res){
       let stock_requests = req.query.stock
       typeof(stock_requests) == 'string' ? stock_requests = [stock_requests.toUpperCase()] : stock_requests = stock_requests.map(function(x){ return x.toUpperCase() })
-      let like = undefined
+      let like = req.query.like
       console.log(like !== undefined)
-      let test = await si.getStocksInfo(stock_requests)
+      let stock_results = await si.getStocksInfo(stock_requests)
     
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
         stock_requests.forEach((stock) =>{
-          let stockObj = test.find(obj => {
-            return obj.symbol === stock
-          })
-          console.log(stock_data)
+          let stockObj = stock_results.find(obj => {return obj.symbol === stock})
+          console.log(stock)
           if(like !== undefined){
-            collection.findOneAndUpdate({name: stock}, {$inc:{likes:1}}, {returnOriginal:false}, (err, data) =>{
-              console.log(data.value)
-              console.log(stock_data)
-          })}
+            collection.findOneAndUpdate({name: stock}, {$set:{name:stock,price:stockObj.regularMarketPrice}, $inc:{likes:1}}, {returnOriginal:false}, (err, data) =>{
+              stock_data.stockData.push(data.value)
+            }
+                                       )}
           else {
-            collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice}, {upsert:true, returnOriginal:false}, (err, data) =>{
-              stock_data.stockData.append(data.value)
-              console.log(data.value)
-              console.log(stock_data)
+            collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice, likes:0}, {upsert:true, returnOriginal:false}, (err, data) =>{
+              stock_data.stockData.push(data.value)
               })
             }
           
         })
+      console.log(stock_data)
         res.json(stock_data)
       })
     });
