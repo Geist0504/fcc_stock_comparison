@@ -24,7 +24,10 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async function (req, res){
       let stock_requests = req.query.stock
+      console.log(stock_requests, typeof(stock_requests))
+      typeof(stock_requests) == 'string' ? stock_requests = stock_requests.map(function(x){ return x.toUpperCase() })
       let like = req.query.like
+      console.log(stock_requests)
       let test = await si.getStocksInfo(stocks)
       res.send('working')
     
@@ -35,7 +38,7 @@ module.exports = function (app) {
             return obj.symbol === stock
           })
           collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice}, {upsert:true, returnOriginal:false}, (err, data) =>{
-            console.log(data)
+            console.log(data.value)
           })
         })
       })
