@@ -96,8 +96,11 @@ suite('Functional Tests', function() {
           .end(function(err, res){
            assert.equal(res.status, 200);
            assert.equal(res.body.stockData[0].name, 'GOOG')
-           assert.equal(res.body.stockData[0].rel_likes, testObj.stockData[0].rel_likes + 1 )
+           assert.equal(res.body.stockData[0].rel_likes, testObj.stockData[0].rel_likes)
            assert.property(res.body.stockData[0], 'price') 
+           assert.equal(res.body.stockData[1].name, 'MSFT')
+           assert.equal(res.body.stockData[1].rel_likes, testObj.stockData[1].rel_likes)
+           assert.property(res.body.stockData[1], 'price') 
           });
           done();
         })
