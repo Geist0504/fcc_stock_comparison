@@ -23,6 +23,9 @@ suite('Functional Tests', function() {
         .query({stock: 'goog'})
         .end(function(err, res){
           //complete this one too
+         assert.equal(res.status, 200);
+         assert.equal(res.body.issue_title, 'Title')
+          assert.equal(res.body.issue_text, 'text')
           
           done();
         });
