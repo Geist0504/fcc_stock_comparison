@@ -49,28 +49,58 @@ suite('Functional Tests', function() {
         chai.request(server)
         .get('/api/stock-prices')
         .query({stock: 'goog'})
-        .end(function(err, res){
-         testObj = res.body
-          console.log(testObj)
+        .end(async function(err, res){
+         testObj = await res.body
+          chai.request(server)
+          .get('/api/stock-prices')
+          .query({stock: 'goog', like: true, like:true})
+          .end(function(err, res){
+           assert.equal(res.status, 200);
+           assert.equal(res.body.stockData[0].name, 'GOOG')
+           assert.equal(res.body.stockData[0].likes, testObj.stockData[0].likes + 1 )
+           assert.property(res.body.stockData[0], 'price')
+           done();
+          });
         });
-        chai.request(server)
-        .get('/api/stock-prices')
-        .query({stock: 'goog', like: true, like:true})
-        .end(function(err, res){
-         assert.equal(res.status, 200);
-         assert.equal(res.body.stockData[0].name, 'GOOG')
-         assert.equal(res.body.stockData[0].likes, testObj.stockData[0].likes + 1 )
-         assert.property(res.body.stockData[0], 'price')
-         done();
-        });
+        
       });
       
       test('2 stocks', function(done) {
+        chai.request(server)
+        .get('/api/stock-prices')
+        .query({stock: ['goog', 'msft']})
+        .end(function(err, res){
+         assert.equal(res.status, 200);
+         assert.equal(res.body.stockData[0].name, 'GOOG')
+         assert.property(res.body.stockData[0], 'rel_likes')
+         assert.property(res.body.stockData[0], 'price')
+         assert.equal(res.body.stockData[1].name, 'MSFT')
+         assert.property(res.body.stockData[1], 'rel_likes')
+         assert.property(res.body.stockData[1], 'price')
+         done();
+        });
         
       });
       
       test('2 stocks with like', function(done) {
-        
+        let testObj 
+        chai.request(server)
+        .get('/api/stock-prices')
+        .query({stock: ['goog', 'msft']})
+        .end(async function(err, res){
+         testObj = await res.body
+          console.log(testObj)
+          chai.request(server)
+          .get('/api/stock-prices')
+          .query({stock: ['goog', 'msft'], like:true})
+          .end(function(err, res){
+           assert.equal(res.status, 200);
+           assert.equal(res.body.stockData[0].name, 'GOOG')
+           assert.equal(res.body.stockData[0].rel_likes, testObj.stockData[0].rel_likes + 1 )
+           assert.property(res.body.stockData[0], 'price') 
+          });
+          done();
+        })
       });
       
     });
