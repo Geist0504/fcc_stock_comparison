@@ -33,15 +33,26 @@ module.exports = function (app) {
     
      MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
+        function resolve(response, stock_data){
+          console.log(stock_data)
+          if (stock_data.length === 1){response.json(stock_data)}
+          else{
+            stock_data[0].rel_likes = stock_data[0].likes - stock_data[1].likes
+            stock_data[1].rel_likes = 0 - stock_data[0].rel_likes
+            response.json(stock_data)
+          }
+        }
+        
         stock_requests.forEach((stock) =>{
           let stockObj = stock_results.find(obj => {return obj.symbol === stock})
           console.log(stock, like)
-          collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice, likes: {$exists: false}, {upsert:true, returnOriginal:false}, (err, data) =>{})
+          collection.findOneAndUpdate({name: stock}, {$setOnInsert: {name:stock,likes: 0}, $set: {price:stockObj.regularMarketPrice}}, {upsert:true, returnOriginal:false}, (err, data) =>{})
           if(like !== undefined){
             collection.findOneAndUpdate({name: stock}, {$inc:{likes:1}}, {upsert: true, returnOriginal:false}, (err, data) =>{
                stock_data.stockData.push(data.value)
               if(stock == stock_requests[stock_requests.length - 1]){ 
                 res.json(stock_data)
+                resolve(res, stock_data)
               }
             }
           )}
@@ -49,7 +60,8 @@ module.exports = function (app) {
              collection.findOne({name: stock}, (err, data) =>{
                stock_data.stockData.push(data)
                if(stock == stock_requests[stock_requests.length - 1]){ 
-                res.json(stock_data)
+                  res.json(stock_data)
+                 resolve(res, stock_data)
                 }
               })
             }
