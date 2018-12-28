@@ -28,7 +28,8 @@ module.exports = function (app) {
       let stock_data = {stockData: []}
       let stock_requests = req.query.stock
       typeof(stock_requests) == 'string' ? stock_requests = [stock_requests.toUpperCase()] : stock_requests = stock_requests.map(function(x){ return x.toUpperCase() })
-      let like = req.query.like
+      let like
+      Array.isArray(req.query.like) ? like = req.query.like[0] : like =req.query.like
       let stock_results = await si.getStocksInfo(stock_requests)
     
      MongoClient.connect(CONNECTION_STRING, function(err, db) {
