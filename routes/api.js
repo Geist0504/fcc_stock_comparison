@@ -32,7 +32,7 @@ module.exports = function (app) {
       console.log(like !== undefined)
       let stock_results = await si.getStocksInfo(stock_requests)
     
-    MongoClient.connect(CONNECTION_STRING, function(err, db) {
+     MongoClient.connect(CONNECTION_STRING, asyncfunction(err, db) {
         let collection = db.collection(db_collection)
         stock_requests.forEach((stock) =>{
           let stockObj = stock_results.find(obj => {return obj.symbol === stock})
@@ -42,13 +42,13 @@ module.exports = function (app) {
             console.log('triggered')
             collection.findOneAndUpdate({name: stock}, {$inc:{likes:1}}, {returnOriginal:false}, async (err, data) =>{
                console.log(data.value)
-              await stock_data.stockData.push(data.value)
+               stock_data.stockData.push(data.value)
             }
           )}
           else {
-            collection.findOne({name: stock}, async (err, data) =>{
-              await console.log(stock_data)
-              await stock_data.stockData.push(data)
+             collection.findOne({name: stock}, async (err, data) =>{
+               console.log(stock_data)
+               stock_data.stockData.push(data)
               console.log(stock_data)
               })
             }
@@ -56,6 +56,7 @@ module.exports = function (app) {
         })
       })
     res.json(stock_data)
+    console.log('sent')
     });
     
 };
