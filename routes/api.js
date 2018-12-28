@@ -19,12 +19,13 @@ const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRIN
 
 const db_collection = 'stocks'
 
-let stock_data = {stockData: []}
+
 
 module.exports = function (app) {
 
   app.route('/api/stock-prices')
-    .get(async function (req, res){
+     .get(async function (req, res){
+      let stock_data = {stockData: []}
       let stock_requests = req.query.stock
       typeof(stock_requests) == 'string' ? stock_requests = [stock_requests.toUpperCase()] : stock_requests = stock_requests.map(function(x){ return x.toUpperCase() })
       let like = req.query.like
@@ -35,22 +36,26 @@ module.exports = function (app) {
         let collection = db.collection(db_collection)
         stock_requests.forEach((stock) =>{
           let stockObj = stock_results.find(obj => {return obj.symbol === stock})
-          console.log(stock)
+          console.log(stock, like)
+          collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice, likes:0}, {upsert:true, returnOriginal:false}, (err, data) =>{})
           if(like !== undefined){
-            collection.findOneAndUpdate({name: stock}, {$set:{name:stock,price:stockObj.regularMarketPrice}, $inc:{likes:1}}, {returnOriginal:false}, (err, data) =>{
-              stock_data.stockData.push(data.value)
+            console.log('triggered')
+            collection.findOneAndUpdate({name: stock}, {$inc:{likes:1}}, {returnOriginal:false}, async (err, data) =>{
+               console.log(data.value)
+              await stock_data.stockData.push(data.value)
             }
-                                       )}
+          )}
           else {
-            collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice, likes:0}, {upsert:true, returnOriginal:false}, (err, data) =>{
-              stock_data.stockData.push(data.value)
+            collection.findOne({name: stock}, async (err, data) =>{
+              await console.log(stock_data)
+              await stock_data.stockData.push(data)
+              console.log(stock_data)
               })
             }
           
         })
-      console.log(stock_data)
-        res.json(stock_data)
       })
+    res.json(stock_data)
     });
     
 };
