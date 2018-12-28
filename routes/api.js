@@ -24,14 +24,14 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(async function (req, res){
       let stock_requests = req.query.stock
-      console.log(req.query)
       let test = await si.getStocksInfo(stocks)
-      console.log(test[0].regularMarketPrice)
       res.send('working')
     
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
-        collection.update({name: 'AMZN'}, {}, {upsert:true})
+        collection.update({name: 'AMZN'}, {name:'AMZN',price:test[0].regularMarketPrice}, {upsert:true}, (err, data) =>{
+          console.log(err, data)
+        })
       })
     });
     
