@@ -31,10 +31,12 @@ module.exports = function (app) {
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
         stocks.forEach((stock) =>{
-          console.log(test)
-          //collection.findOneAndUpdate({name: stock}, {name:stock,price:test[0].regularMarketPrice}, {upsert:true}, (err, data) =>{
-          //  console.log(err, data.value)
-          //})
+          let stockObj = test.find(obj => {
+            return obj.symbol === stock
+          })
+          collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice}, {upsert:true, returnOriginal:false}, (err, data) =>{
+            console.log(data)
+          })
         })
       })
     });
