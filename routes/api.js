@@ -23,6 +23,8 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get(async function (req, res){
+      let stock_requests = req.query.stock
+      console.log(req.query)
       let test = await si.getStocksInfo(stocks)
       console.log(test[0].regularMarketPrice)
       res.send('working')
