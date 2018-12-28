@@ -31,7 +31,7 @@ module.exports = function (app) {
     
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
-        //collection.find(searchQuery).toArray(function(err,docs){res.json(docs)});
+        collection.update({name: 'AMZN'}, {}, {upsert:true})
       })
     });
     
