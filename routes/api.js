@@ -19,6 +19,8 @@ const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRIN
 
 const db_collection = 'stocks'
 
+let stock_data = {stockData: []}
+
 module.exports = function (app) {
 
   app.route('/api/stock-prices')
@@ -28,7 +30,7 @@ module.exports = function (app) {
       let like = req.query.like
       console.log(stock_requests)
       let test = await si.getStocksInfo(stock_requests)
-      res.send('working')
+      res.json(stock_data)
     
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
@@ -36,10 +38,15 @@ module.exports = function (app) {
           let stockObj = test.find(obj => {
             return obj.symbol === stock
           })
+          
           collection.findOneAndUpdate({name: stock}, {name:stock,price:stockObj.regularMarketPrice}, {upsert:true, returnOriginal:false}, (err, data) =>{
-            console.log(data.value)
           })
+          if(like){
+            collection.findOneAndUpdate({name: stock}, {$inc:{likes:1}}, {returnOriginal:false}, (err, data) =>{
+              console.log(data.value)
+            })}
         })
+        res.json(stock_data)
       })
     });
     
