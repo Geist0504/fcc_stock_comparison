@@ -29,8 +29,8 @@ module.exports = function (app) {
     
     MongoClient.connect(CONNECTION_STRING, function(err, db) {
         let collection = db.collection(db_collection)
-        collection.update({name: 'AMZN'}, {name:'AMZN',price:test[0].regularMarketPrice}, {upsert:true}, (err, data) =>{
-          console.log(err, data)
+        collection.findOneAndUpdate({name: 'AMZN'}, {name:'AMZN',price:test[0].regularMarketPrice}, {upsert:true}, (err, data) =>{
+          console.log(err, data.value)
         })
       })
     });
